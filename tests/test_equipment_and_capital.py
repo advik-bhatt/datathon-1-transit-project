@@ -34,25 +34,55 @@ def test_revenue_machine_flag_overrides_the_notes(toy_equipment):
     assert a.loc["EL1", "passenger_asset"]
 
 
-def test_segments_are_inferred_from_notes_and_flag(toy_equipment):
+def test_segments_come_from_the_structured_level_flags(toy_equipment):
+    """The vertical path is read off the published columns, not the notes."""
     a = eqm.build_assets(toy_equipment).set_index("equipment_code")
     assert a.loc["EL1", "segment"] == "street->mezzanine"
     assert a.loc["EL2", "segment"] == "mezzanine->platform"
     assert a.loc["EL6", "segment"] == "street->platform"
+    assert set(a.loc[a["passenger_asset"], "segment_confidence"]) == {"structured"}
 
 
-def test_redundancy_is_detected(toy_equipment):
+def test_notes_cannot_override_the_structured_levels(toy_equipment):
+    """A misleading note must not move the inferred path.
+
+    The first version of this module inferred the path from the notes and
+    agreed with the agency's own redundancy flag on only 45% of elevators.
+    """
+    eq = toy_equipment.copy()
+    eq.loc[eq["equipment_code"] == "EL1", "notes"] = "mezzanine to platform"
+    a = eqm.build_assets(eq).set_index("equipment_code")
+    assert a.loc["EL1", "segment"] == "street->mezzanine"
+
+
+def test_redundancy_comes_from_the_published_flag(toy_equipment):
     a = eqm.build_assets(toy_equipment)
     crit = eqm.asset_criticality(a).set_index("equipment_code")
-    # Complex 1 has two different segments, each served by one machine.
+    # The agency records no substitute for either machine at complex 1.
     assert crit.loc["EL1", "sole_on_segment"]
     assert crit.loc["EL2", "sole_on_segment"]
-    # Complex 3 has two machines on the same segment, so neither is sole.
+    # It records EL3 and EL4 as substitutes for each other.
     assert not crit.loc["EL3", "sole_on_segment"]
     assert not crit.loc["EL4", "sole_on_segment"]
+    assert crit.loc["EL3", "substitute_codes"] == "EL4"
     v = eqm.complex_vertical_model(a).set_index("complex_id")
-    assert v.loc[3, "all_segments_redundant"]
-    assert not v.loc[1, "all_segments_redundant"]
+    assert v.loc[3, "all_elevators_have_a_substitute"]
+    assert not v.loc[1, "all_elevators_have_a_substitute"]
+    assert int(v.loc[1, "n_single_points_of_failure"]) == 2
+
+
+def test_level_pair_count_disagrees_with_the_published_flag(toy_equipment):
+    """Two machines sharing a level pair are not necessarily substitutes.
+
+    EL2 and EL6 both run mezzanine-or-street to platform but at different
+    complexes; within a complex the same trap applies to different platforms
+    and directions, which is why counting level pairs scored only 45%
+    agreement against the agency's flag on the real inventory.
+    """
+    a = eqm.build_assets(toy_equipment)
+    rep = eqm.redundancy_agreement(a)
+    assert rep["published_single_points"] >= rep["inferred_single_points"]
+    assert rep["substitute_flag_corroborated_by_a_named_partner"] == 2
 
 
 def test_step_free_complex_without_an_elevator_is_not_at_risk(toy_stations, toy_equipment):
@@ -129,6 +159,7 @@ def test_damage_is_zero_for_a_redundant_elevator(toy_stations, toy_topology,
     cxd = dm.complex_removal_damage(model, [1, 3, 5])
     un = avm.unavailability(toy_availability, months=24)
     seg = dm.elevator_damage(crit, cxd, un, model_name="segment").set_index("equipment_code")
+    # EL3 has a published substitute, so its failure disables nothing.
     assert seg.loc["EL3", "damage_flow"] == 0.0
     assert seg.loc["EL1", "damage_flow"] > 0.0
     # The crude model holds every machine responsible, so it is an upper bound.

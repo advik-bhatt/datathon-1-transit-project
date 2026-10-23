@@ -39,8 +39,10 @@ DATASETS = {
     # Complex level: the unit riders actually experience, and the unit the
     # equipment and ridership datasets key on.
     "complexes": ("NY", "5f5g-n3cz", 445),
-    # Every elevator and escalator, with install dates and the free-text note
-    # that is the only public description of which vertical segment it serves.
+    # Every elevator and escalator, with install dates plus the structured
+    # vertical-path and redundancy columns: level-access flags, chain order,
+    # direction served, and `redundant_elevator` with the substitute's code.
+    # The free-text `notes` field is a cross-check on those, not the source.
     "equipment": ("NY", "94fv-bak7", 759),
     # Monthly availability and outage counts per unit since 2015.
     "availability": ("NY", "rc78-7x78", 83_776),

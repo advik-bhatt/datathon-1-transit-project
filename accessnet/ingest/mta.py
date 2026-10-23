@@ -95,10 +95,22 @@ def load_equipment(force: bool = False) -> pd.DataFrame:
     df = cached_query("equipment", d, ds, force=force)
     df = _num(df, ["station_mrn", "station_complex_mrn", "x_coordinate",
                    "y_coordinate", "service_life", "escalator_rise",
-                   "escalator_number_of_steps", "escalator_step_width"])
+                   "escalator_number_of_steps", "escalator_step_width",
+                   "elevator_order", "elevator_rise", "elevator_capacity",
+                   "elevator_number_of_landings"])
     for c in ("equipment_code", "elevator_or_escalator", "asset_class", "notes",
               "street_access", "nyct_owned", "service_status", "subway_line",
-              "borough", "station_name", "station_description", "maintained_by"):
+              "borough", "station_name", "station_description", "maintained_by",
+              # Structured vertical-path and redundancy fields. These exist and
+              # are populated for exactly the 430 passenger elevators, which
+              # makes the free-text `notes` field a cross-check rather than the
+              # only description of what a machine connects.
+              "revenue_machine", "ada_compliant", "alternative_route",
+              "elevator_direction_serviced", "elevator_order",
+              "elevator_mezzanine_1_access", "elevator_mezzanine_2_access",
+              "elevator_platform_access", "redundant_elevator",
+              "redundant_elevator_street", "redundant_elevator_mezzanine",
+              "redundant_elevator_access", "redundant_elevator_platform"):
         if c in df.columns:
             df[c] = df[c].astype(str).replace({"NaN": "", "nan": "", "None": ""})
     for c in ("original_installation_date", "latest_installation_date"):

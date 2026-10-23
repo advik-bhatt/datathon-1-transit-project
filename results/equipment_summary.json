@@ -3,20 +3,26 @@
   "n_passenger_elevators": 430,
   "n_non_passenger": 52,
   "n_out_of_service": 22,
-  "segment_confidence": {
-    "high": 339,
-    "medium": 79,
-    "non_passenger": 52,
-    "none": 9,
-    "low": 3
+  "segment_source": {
+    "structured": 430,
+    "non_passenger": 52
   },
   "n_complexes_with_elevators": 133,
-  "n_complexes_all_segments_redundant": 49,
-  "n_complexes_with_a_critical_segment": 84,
-  "n_elevators_sole_on_their_segment": 116,
-  "vertical_model_confidence": {
-    "high": 103,
-    "medium": 29,
-    "low": 1
+  "n_complexes_all_elevators_substitutable": 11,
+  "n_complexes_with_a_single_point_of_failure": 122,
+  "n_single_points_of_failure": 309,
+  "redundancy_agreement_with_old_text_inference": {
+    "n_compared": 418,
+    "agreement_pct": 45.0,
+    "inferred_single_points": 115,
+    "published_single_points": 309,
+    "agreed_single_points": 97,
+    "published_has_substitute": 109,
+    "substitute_flag_corroborated_by_a_named_partner": 107
+  },
+  "direction_served": {
+    "Both": 213,
+    "Southbound": 111,
+    "Northbound": 106
   }
 }

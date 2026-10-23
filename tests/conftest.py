@@ -57,28 +57,54 @@ def toy_od() -> pd.DataFrame:
 @pytest.fixture
 def toy_equipment() -> pd.DataFrame:
     """Elevators covering the cases the parser has to separate."""
+    # Columns mirror the real inventory: the vertical path comes from the
+    # structured level-access flags and redundancy from `redundant_elevator`,
+    # with `notes` present only as a cross-check.
+    # (code, complex, street_access, mezz1, mezz2, platform, redundant,
+    #  partner, direction, order, revenue, notes)
     rows = [
-        # Complex 1: street to mezzanine and mezzanine to platform, no spares.
-        ("EL1", 1, "YES", "Street entrance to mezzanine"),
-        ("EL2", 1, "NO", "mezzanine to platform for uptown service"),
-        # Complex 3: two elevators on the same segment, so each is redundant.
-        ("EL3", 3, "NO", "mezzanine to platform"),
-        ("EL4", 3, "NO", "mezzanine to platform"),
-        # Complex 5: a yard machine that must never enter the model.
-        ("EL5", 5, "NO", "Freight Elevator At 207Th Street Yard"),
-        ("EL6", 5, "YES", "Street to platform"),
+        # Complex 1: a street-to-mezzanine and a mezzanine-to-platform leg,
+        # neither with a substitute.
+        ("EL1", 1, "YES", "+", "-", "-", "-", "", "Both", 1, "YES",
+         "Street entrance to mezzanine"),
+        ("EL2", 1, "NO", "+", "-", "+", "-", "", "Northbound", 2, "YES",
+         "mezzanine to platform for uptown service"),
+        # Complex 3: two machines the agency records as substitutes for each
+        # other, so neither is a single point of failure.
+        ("EL3", 3, "NO", "+", "-", "+", "+", "EL4", "Both", 1, "YES",
+         "mezzanine to platform"),
+        ("EL4", 3, "NO", "+", "-", "+", "+", "EL3", "Both", 1, "YES",
+         "mezzanine to platform"),
+        # Complex 5: a yard machine, which the revenue flag excludes and which
+        # therefore carries no structured path data, as in the real file.
+        ("EL5", 5, "NO", None, None, None, None, "", "", None, "NO",
+         "Freight Elevator At 207Th Street Yard"),
+        ("EL6", 5, "YES", "-", "-", "+", "-", "", "Both", 1, "YES",
+         "Street to platform"),
     ]
     return pd.DataFrame(
         [{"equipment_code": c, "elevator_or_escalator": "Elevator",
           "asset_class": "Elevator", "station_complex_mrn": cx,
           "station_mrn": cx, "street_access": sa, "notes": note,
+          "elevator_mezzanine_1_access": m1,
+          "elevator_mezzanine_2_access": m2,
+          "elevator_platform_access": pl,
+          "redundant_elevator": red,
+          "redundant_elevator_platform": partner,
+          "redundant_elevator_street": "",
+          "redundant_elevator_mezzanine": "",
+          "redundant_elevator_access": "",
+          "elevator_direction_serviced": direction,
+          "elevator_order": order,
+          "revenue_machine": rev,
+          "ada_compliant": "YES",
           "service_status": "Installed-Functioning-In Service",
           "original_installation_date": pd.Timestamp("2005-01-01"),
           "latest_installation_date": pd.Timestamp("2005-01-01"),
           "service_life": 25.0, "exposed_to_weather": "NO",
           "station_name": f"S{cx}", "borough": "M", "subway_line": "1",
           "x_coordinate": 40.0, "y_coordinate": -74.0}
-         for c, cx, sa, note in rows]
+         for c, cx, sa, m1, m2, pl, red, partner, direction, order, rev, note in rows]
     )
 
 
