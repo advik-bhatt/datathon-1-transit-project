@@ -10,7 +10,7 @@ complex_id,n_elevators,n_segments,n_critical_segments,min_redundancy,all_segment
 44.0,2,1,0,2,True,high
 51.0,2,1,0,2,True,high
 54.0,2,1,0,2,True,high
-58.0,2,2,2,1,False,medium
+58.0,1,1,1,1,False,high
 68.0,3,2,1,1,False,high
 71.0,2,1,0,2,True,high
 83.0,2,1,0,2,True,high
@@ -29,7 +29,7 @@ complex_id,n_elevators,n_segments,n_critical_segments,min_redundancy,all_segment
 164.0,4,2,1,1,False,high
 167.0,3,2,1,1,False,high
 168.0,1,1,1,1,False,high
-175.0,2,2,2,1,False,medium
+175.0,1,1,1,1,False,high
 181.0,3,2,1,1,False,high
 188.0,3,2,1,1,False,high
 192.0,2,1,0,2,True,high
@@ -104,7 +104,7 @@ complex_id,n_elevators,n_segments,n_critical_segments,min_redundancy,all_segment
 471.0,4,3,2,1,False,high
 475.0,2,2,2,1,False,high
 476.0,2,2,2,1,False,high
-477.0,7,3,2,1,False,high
+477.0,6,2,1,1,False,high
 601.0,9,3,1,1,False,high
 602.0,3,1,0,3,True,high
 603.0,3,1,0,3,True,high
@@ -112,7 +112,7 @@ complex_id,n_elevators,n_segments,n_critical_segments,min_redundancy,all_segment
 605.0,7,3,1,1,False,medium
 606.0,5,3,2,1,False,high
 607.0,6,3,2,1,False,high
-609.0,4,2,1,1,False,medium
+609.0,3,1,0,3,True,medium
 610.0,8,3,0,2,True,medium
 611.0,7,3,2,1,False,medium
 612.0,4,3,2,1,False,medium
@@ -127,7 +127,7 @@ complex_id,n_elevators,n_segments,n_critical_segments,min_redundancy,all_segment
 623.0,2,1,0,2,True,high
 624.0,8,4,1,1,False,medium
 627.0,2,1,0,2,True,high
-628.0,14,5,2,1,False,medium
+628.0,12,5,3,1,False,medium
 629.0,6,2,0,2,True,high
 630.0,3,2,1,1,False,high
 635.0,2,2,2,1,False,high

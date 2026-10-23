@@ -15,15 +15,41 @@ elevators is holding up.
 **The headline: ranking elevators by how much step-free travel they gate is
 essentially uncorrelated with ranking them by how often they break.** Spearman
 rank correlation between reachability damage and mean monthly outages is
-**0.088** across 407 elevators. Against unavailability it is **−0.002**.
-Against entrapments, **0.072**. Against the ridership of the station the
-elevator serves, **0.054**. Every signal the open data surfaces for maintenance
+**0.077** across 407 elevators. Against unavailability it is **-0.017**.
+Against entrapments, **0.062**. Against the ridership of the station the
+elevator serves, **0.067**. Every signal the open data surfaces for maintenance
 triage is close to orthogonal to rider harm.
+
+> **Corrections, 2026-10-23.** An adversarial prior-art and data pass after the
+> first commit changed three things. All are fixed here rather than quietly
+> edited away.
+>
+> 1. **The directed accessible graph is not new.** Two Sigma Data Clinic's
+>    archived `tsdataclinic/mta` already builds a system-wide street-to-train
+>    ADA graph at platform and direction granularity from GTFS, and its
+>    `elevator_importance.py` already measures existing-elevator redundancy.
+>    The original claim to be first at multiplying directional accessibility by
+>    redundancy was wrong. What survives is the flow weighting and what follows
+>    from it.
+> 2. **TransitCenter already published the core insight in print**: stations
+>    have elevators in series, so one outage can disable a whole station and
+>    per-equipment uptime overstates accessibility. Nobody had computed it. The
+>    insight is theirs; the number is this project's.
+> 3. **Two data defects, both fixed, both of which moved numbers.** The
+>    agency's own `revenue_machine` flag marks 52 elevators as non-revenue
+>    where reading the notes caught only 31, so 21 yard and service machines
+>    were inside the model. And unavailability was the mean of monthly ratios
+>    rather than hours-weighted, which understated the worst unit by 5 points.
+>    Every figure below is recomputed.
 
 And the direction the model points is specific. The single most consequential
 elevator in the system by expected trips denied is EL131 at 161 St-Yankee
-Stadium: the sole street-to-mezzanine machine at its complex, unavailable 38.0%
-of the time over the trailing two years, gating 1.47% of all step-free travel.
+Stadium: the sole street-to-mezzanine machine at its complex, gating 1.47% of
+all step-free travel and unavailable **43.1%** of the hours it was in service
+over the trailing two years. It was also out of service entirely for sixteen
+consecutive months before returning, which the model now reports separately
+rather than scoring as unreliability: a replacement programme and a machine
+that keeps breaking are different problems.
 
 ---
 
@@ -91,6 +117,32 @@ step-free served trips:
 | Chambers St / WTC / Park Place | Manhattan | 4.49% |
 | Jackson Hts-Roosevelt Av | Queens | 4.17% |
 
+### Is the headline tautological? No, and here is the test
+
+A fair objection: reachability damage is built from passenger flow and
+redundancy, while outage counts are built from availability records. Two scores
+computed from disjoint columns being uncorrelated could be arithmetic rather
+than a finding.
+
+The objection is answered by testing the input independence directly. If busier
+stations had systematically worse elevators, ridership would carry reliability
+information and the orthogonality would be an artifact of how the scores were
+built. They do not:
+
+| | Spearman, n = 407 |
+| --- | --- |
+| complex ridership vs elevator unavailability | +0.042 |
+| complex ridership vs mean monthly outages | -0.119 |
+| complex ridership vs entrapments | -0.044 |
+| complex ridership vs in-service coverage | -0.023 |
+
+Ridership and reliability come from genuinely separate datasets and are
+genuinely unrelated. That is an empirical fact with content, and it is what
+makes the headline meaningful: damage tracks flow, flow says nothing about
+reliability, so damage cannot be recovered from any reliability signal. The
+converse also holds and is the operational point: a crew list ordered by outage
+count is close to random with respect to the travel those outages block.
+
 ### The agency's own reliability metric is optimistic, and most optimistic where it hurts
 
 MTA publishes accessible-platform availability aggregated by borough and
@@ -99,10 +151,10 @@ carries gives a lower number in **every** borough:
 
 | borough | trip-weighted | MTA published | difference |
 | --- | --- | --- | --- |
-| Bronx | 91.11% | 95.10% | **−3.99 pts** |
-| Manhattan | 95.29% | 98.14% | −2.85 pts |
-| Brooklyn | 96.64% | 98.12% | −1.48 pts |
-| Queens | 96.48% | 97.33% | −0.85 pts |
+| Bronx | 90.22% | 95.10% | **-4.88 pts** |
+| Manhattan | 95.06% | 98.14% | -3.08 pts |
+| Brooklyn | 96.55% | 98.12% | -1.57 pts |
+| Queens | 96.03% | 97.33% | -1.30 pts |
 
 The gap is largest in the Bronx, which is already the worst borough on the
 agency's own measure. So the published metric is not merely optimistic, it is
@@ -123,13 +175,11 @@ unavailability, 300 draws:
 
 | | share of step-free trips lost |
 | --- | --- |
-| mean | 4.45% |
-| median | 3.84% |
-| 90th percentile | 8.94% |
-| 99th percentile | 13.48% |
-| worst draw | 15.53% |
+| mean | 4.47% |
+| 90th percentile | 9.68% |
+| 99th percentile | 15.94% |
 
-Mean 2.7 elevators down at once, maximum 9. Independence is an assumption and
+Mean 2.7 elevators down at once. Independence is an assumption and
 a questionable one, because outages cluster by weather, by maintenance
 campaign and by equipment vintage. That makes this an optimistic view of the
 tail and a reasonable one for the mean.
@@ -180,12 +230,13 @@ being left for someone to discover later.
 | | |
 | --- | --- |
 | elevators in the inventory | 482 |
-| passenger assets used in the model | 451 |
-| excluded as yard, freight, relay or signal-tower machines | 31 |
+| passenger assets used in the model | 430 |
+| excluded by the agency's `revenue_machine` flag | 52 |
 | recorded out of service | 22 |
-| sole server of their vertical segment | **119** |
-| complexes where every segment is redundant | 48 of 133 |
-| complexes with at least one single point of failure | 85 of 133 |
+| out of service for more than half the trailing two years | 27 |
+| sole server of their vertical segment | **116** |
+| complexes where every segment is redundant | 49 of 133 |
+| complexes with at least one single point of failure | 84 of 133 |
 | past their stated service life | 242 of 482 |
 | median age | 17.6 years |
 | exposed to weather | 192 |
@@ -235,18 +286,17 @@ A rider needs a continuous step-free chain from street to platform. Whether one
 machine's failure breaks that chain depends on redundancy, and the data does
 not state it. What the data gives is `street_access`, a reliable structured
 flag, and `notes`, free text that is the only description of which vertical
-segment a machine serves. Of 451 passenger elevators, 333 mention a mezzanine
-or concourse, 278 mention a platform, and 424 describe a segment at all.
+segment a machine serves. Of 430 passenger elevators, most mention a mezzanine,
+a concourse or a platform, and the great majority describe a segment at all.
 
 Each elevator is assigned a `(from_level, to_level)` pair and a confidence:
 
 | confidence | elevators |
 | --- | --- |
-| high | 341 |
-| medium | 84 |
-| non-passenger, excluded | 31 |
-| landings-only note | 9 |
-| no segment inferable | 14 |
+| high | 339 |
+| medium | 79 |
+| non-revenue, excluded | 52 |
+| no segment inferable | 9 |
 | weak street-language evidence only | 3 |
 
 An elevator is **critical** when it is the only passenger elevator serving its
@@ -256,13 +306,18 @@ Because this rests on a free-text parse, **two damage models are reported side
 by side**, so a reader can see exactly how much the parse carries:
 
 - **segment** — an outage disables its complex only when that elevator is the
-  sole server of its segment. Mean 4.45% of step-free travel at risk.
+  sole server of its segment. Mean 4.47% of step-free travel at risk.
 - **any** — every elevator outage disables its complex. A deliberately crude
-  upper bound. Mean 29.03%.
+  upper bound. Mean 28.03%.
 
-Thirteen step-free complexes have no elevator in the inventory at all. Those
-are reached by ramp or at grade, so no elevator outage can remove them, and
-treating them as elevator-dependent would invent damage.
+Thirteen step-free complexes have no passenger elevator in the inventory at
+all, so no elevator outage can remove them and treating them as
+elevator-dependent would invent damage. Calling them ramp or grade access is an
+**inference, not a published fact**: several carry real ridership, and an
+inventory gap would look identical in this data. Six of them are Staten Island
+Railway complexes, which are additionally absent from the subway
+origin-destination matrix by construction and so carry no flow here either. The
+honest statement is that the model is blind at those nodes.
 
 ### The optimisation that made this tractable
 
@@ -359,7 +414,7 @@ one-off download.
 pip install pytest && PYTHONPATH=. python -m pytest tests/ -q
 ```
 
-22 tests on a five-station synthetic network whose answers are known by hand,
+25 tests on a five-station synthetic network whose answers are known by hand,
 plus one check against the real station table. The ones that matter are the
 semantic invariants:
 
@@ -372,7 +427,13 @@ semantic invariants:
   only;
 - a step-free complex with no elevator cannot be harmed by an elevator outage;
 - greedy marginal gains are non-increasing, as submodularity requires;
-- no free-text note contradicts the structured directional flags.
+- no free-text note contradicts the structured directional flags;
+- the agency's `revenue_machine` flag overrides a passenger-looking note, and a
+  revenue machine at a station whose name contains "Yards" is not excluded;
+- unavailability is hours-weighted, so a month with 80 in-service hours does
+  not count as much as one with 744;
+- months with no in-service hours are reported as capital outage rather than
+  scored as unreliability.
 
 ---
 
@@ -396,34 +457,77 @@ accessnet/
     mta.py         the specific tables, types fixed on the way in
 results/           every table in this README, as CSV or JSON
 results/figures/   six figures
-tests/             22 tests on a hand-checkable synthetic network
+tests/             25 tests on a hand-checkable synthetic network
 ```
 
 ## Prior art
 
-Six repositories exist on GitHub for "mta elevator outage". The closest live
-project runs a step-free route search over station-and-line pairs against the
-live outage feed: it answers one rider's trip question and explicitly does no
-prediction and no ranking of elevators or stations by importance, and it has no
-flow weighting. Another is exploratory JavaScript with no graph. A third
-exposes the feeds to a language model without analysis. A fourth runs a
-shortest-path search on general service status rather than accessibility.
+Each item below was fetched and read during an adversarial verification pass.
+Two of this project's original claims did not survive it.
 
-TransitCenter's *Access Denied* counts accessible stations and reachable
-station pairs with no outage dynamics, and recommended importing a weighted
-scoring method that it then did not apply. The MTA's own accessible-platform
-metric is borough-aggregated and platform-weighted. Its published
-station-selection methodology lists six criteria, none of which is a
-network-reachability term.
+**The hardest technical piece already existed.** Two Sigma Data Clinic's
+`tsdataclinic/mta` (archived) builds a system-wide accessible graph "mapped
+from street to train back to street via ADA compliant routes": it matches
+elevators to platforms *and* to the lines and directions serving them, uses
+GTFS to find which platforms are connected by which trains, and joins the
+result into one graph. Its `elevator_importance.py` measures existing-elevator
+redundancy for maintenance. So a directed, route-and-platform-level accessible
+graph with a redundancy measure is prior art. The original claim here, that
+nobody treats accessibility as directed and redundancy-aware, was wrong. What
+`tsdataclinic/mta` does not do is weight by origin-destination flow, rank for
+capital installation, or produce a time series.
 
-A public repository predicts whether an elevator will have at least one
-unscheduled outage next month at 81.5% accuracy. Against the 64.4% majority
-base rate measured here, that is about 17 accuracy points above always
-predicting "yes", which is why this project does not pursue that target.
+**The core insight is published; the number was not.** TransitCenter's *Access
+Denied* already states in print that stations "often have two or three
+elevators in series, so a single outage can make the whole station
+inaccessible," and that the elevator uptime figure therefore overstates
+station accessibility. It also already counted step-free station pairs: 110 of
+472 stations accessible, 11,990 step-free pairs against 222,312 for a stair
+user, "only 5% as much trip-making opportunity." By its own text it does not
+multiply measured per-equipment availability along actual chains, does not
+weight by ridership, and produces no time series. The insight belongs to them.
+This repository's contribution is computing it, with flow weights replacing
+pair counts, which is the step TransitCenter explicitly declined.
 
-What is new here: multiplying directional accessibility by equipment redundancy
-by actual passenger flow, and reporting what falls out, including the parts that
-say the existing approach is fine.
+**The outage-prediction lane is occupied**, and this project deliberately does
+not enter it. `AnsChoudhary/mta-predictive-maintenance` (October 2026) is an
+XGBoost next-month unscheduled-outage classifier on the same availability
+table at 93% recall and 80% precision.
+`jiayili6812/mta-elevator-reliability` is a random forest on the same target,
+and its own README calls itself "a planning and chronic-reliability layer, not
+a real-time trip tool." Neither models chains, paths or flow. Against the
+64.4% majority base rate measured here, a binary next-month outage target is
+close to uninformative, which is why this project estimates unavailability
+instead.
+
+**Routers, trackers and the agency's own framing.** Of the six repositories
+that exist for "mta elevator outage": `forbiddenlink/stepfree` runs a step-free
+route search against the live outage feed, answering one rider's trip question
+with no prediction, no ranking and no flow weighting; `nevvada/can-i-get-there`
+is a current-status lookup; `jeremiak/mta-elevator-outages` and
+`mmmfang/mta-elevators` are exploratory; `BetaNYC/mta-mcp` wraps the feeds for
+a language model; `harshit-ojha0324/nyc-transit-hub` searches general service
+status rather than accessibility. `binh748/expanding-mta-accessibility` asks
+this project's capital question with turnstile counts and census data,
+Manhattan only, no flow and no reachability. The New York City Council's
+accessibility page reports counts, a raw outage total and a top-five-by-outage
+list, and defines availability as the percent of a 24-hour period a unit runs,
+which is exactly the count-and-uptime framing this project argues against.
+
+**What survives as new.**
+
+1. **Flow-weighted step-free reachability**, where the published alternatives
+   count stations, pairs, or equipment-hours. The gap is a factor of 4.2.
+2. **The orthogonality result**, with the input independence measured rather
+   than assumed, so it is not an artifact of how the scores were built.
+3. **Trip-weighted availability set beside the agency's platform-weighted
+   metric**, which shows the published number is optimistic in every borough
+   and worst in the Bronx. The Bronx-Manhattan gap itself is visible in MTA's
+   own figures and is not this project's to claim; the trip weighting and the
+   size of the discrepancy are.
+4. **The negative result on capital selection**, which says the half of the
+   problem the agency's published criteria already address does not need this
+   machinery.
 
 ## What would change the conclusions
 

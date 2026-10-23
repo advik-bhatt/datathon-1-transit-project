@@ -2,8 +2,6 @@ equipment_code,complex_id,segment,from_level,to_level,segment_confidence,peers_o
 EL607X,610.0,mezzanine->platform,mezzanine,platform,high,3.0,False,,2020-12-09,17.0,,GRANDCENTRAL-42ST-LEX-S,Manhattan,One Vanderbilt mezzanine level to platform level for Shuttle service and connection to 4/5/6 and 7 via passageway
 EL728X,628.0,unknown->platform,unknown,platform,medium,1.0,False,NO,2014-11-10,17.0,NO,FULTONST-LEX-4/5,Manhattan,"Dey St & Broadway (SW corner) to downtown 4/5 platform, access to rest of Fulton St complex, and connection to Oculus complex"
 EL279,614.0,street->platform,street,platform,high,1.0,False,YES,2009-10-18,17.0,NO,59ST-COLUMBUSCIRCLE-8AV-A/B/C/D,Manhattan,uptown 1 platform to uptown A/B/C/D platform
-EL359X,,unknown->unknown,unknown,unknown,landings_only,,False,NO,,17.0,NO,,Brooklyn,3 Landings
-EL748,175.0,unknown->mezzanine,unknown,mezzanine,medium,0.0,True,NO,2019-12-24,22.0,NO,HOYT-SCHERMERHORN-8AV-A/C/G,Brooklyn,MEZZANINE TO STREET
 EL449X,279.0,unknown->mezzanine,unknown,mezzanine,medium,2.0,False,NO,2012-01-01,17.0,NO,SUTPHINBLVD-ARCHERAV-JFKAIRPORT-QBL-E/J/Z,Queens,Sutphin Blvd & Archer Ave (SW intersection) to mezzanine for service in both directions
 EL440,223.0,mezzanine->platform,mezzanine,platform,high,4.0,False,NO,2016-12-30,22.0,NO,LEXINGTONAV/63ST-63S-F/Q,Manhattan,63 St & 3 Av mezzanine to platforms for service in both directions.
 EL602,471.0,mezzanine->mezzanine,mezzanine,mezzanine,high,1.0,False,NO,2015-09-13,22.0,NO,34ST-HUDSONYARDS-FLS-7,Manhattan,upper mezzanine to lower mezzanine for Flushing Main St-bound service
@@ -35,7 +33,6 @@ EL13X,328.0,unknown->unknown,unknown,unknown,none,1.0,False,NO,2018-09-11,17.0,N
 EL17X,624.0,unknown->mezzanine,unknown,mezzanine,medium,2.0,False,NO,2018-09-11,17.0,NO,CORTLANDTST-BWY-R,Manhattan,"Oculus main level to Fulton Center level, balcony, and mezzanine for downtown R/W service"
 EL479,461.0,mezzanine->platform,mezzanine,platform,high,0.0,True,NO,2024-12-12,17.0,YES,QUEENSBOROPLAZA-FLS-7/N/Q,Queens,Mezzanine to lower platform and upper platform.
 EL787,,street->platform,street,platform,high,,False,YES,2023-09-19,22.0,YES,,Staten Island,Near SE corner of New Dorp Ln and New Dorp Plaza for access to Tottenville-bound platform.
-EL354,,street->unknown,street,unknown,medium,,False,YES,1928-01-01,22.0,NO,,Brooklyn,Street To 1St & 2Nd Floor
 EL395,98.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2003-03-04,17.0,YES,FLUSHINGAV-JAM-J/M,Brooklyn,mezzanine to Manhattan bound-platform
 EL781,629.0,mezzanine->platform,mezzanine,platform,high,3.0,False,NO,2024-04-01,17.0,NO,METROPOLITANAV-XTN-G,Brooklyn,Mezzanine to Church Av-bound platform.
 EL278,614.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2009-10-17,17.0,NO,59ST-COLUMBUSCIRCLE-8AV-A/B/C/D,Manhattan,mezzanine to uptown A/B/C/D platform
@@ -74,7 +71,6 @@ EL119,146.0,unknown->mezzanine,unknown,mezzanine,medium,2.0,False,NO,1985-10-01,
 EL283,9.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2021-05-21,17.0,NO,57ST-7AV-BWY-N/R/Q,Manhattan,Mezzanine to platform for northbound NQRW service
 EL11X,328.0,unknown->mezzanine,unknown,mezzanine,medium,1.0,False,NO,2018-09-11,17.0,NO,CORTLANDTST-7AV-1,Manhattan,West Concourse balcony to West Concourse with access to 1 service in both directions
 EL604,9.0,unknown->mezzanine,unknown,mezzanine,medium,0.0,True,NO,2021-05-21,17.0,NO,57ST-7AV-BWY-N/R/Q,Manhattan,55 St & 7th Ave (NE corner) to mezzanine for service in both directions
-EL237X,609.0,mezzanine->platform,mezzanine,platform,high,0.0,True,NO,2011-11-02,17.0,NO,42ST-BRYANTPK-6AV-B/D/F/M,Manhattan,Lower Mezzanine To Northbound Platform
 EL741,615.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2019-07-19,17.0,YES,NEWUTRECHTAV-SEA-N,Brooklyn,mezzanine to Coney Island-bound D platform
 EL220,602.0,mezzanine->platform,mezzanine,platform,high,2.0,False,NO,2000-05-26,17.0,NO,14ST-UNIONSQ-BWY-N/R/Q,Manhattan,mezzanine to downtown N/Q/R/W platform
 EL132,604.0,mezzanine->platform,mezzanine,platform,high,3.0,False,NO,2002-04-04,17.0,NO,161ST-YANKEESTADIUM-CON-B/D,Bronx,B/D mezzanine to Woodlawn-bound 4 platform and mezzanine for Manhattan-bound 4 service
@@ -92,8 +88,6 @@ EL290X,611.0,unknown->mezzanine,unknown,mezzanine,medium,4.0,False,NO,1900-01-01
 EL144,153.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2005-12-02,17.0,NO,125ST-8AV-A/B/C/D,Manhattan,mezzanine to uptown platform
 EL512,363.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2025-01-07,22.0,YES,WESTCHESTERSQ-EASTTREMONTAV-PEL-6,Bronx,Street (NW corner of Westchester Av and Lane Av) to mezzanine.
 EL338,327.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2009-04-16,17.0,NO,CHAMBERSST-7AV-1/2/3,Manhattan,mezzanine to downtown platform
-EL366,,street->unknown,street,unknown,medium,,False,YES,1999-11-16,17.0,YES,,Brooklyn,Parking Lot To 4Th Floor
-EL459,,street->unknown,street,unknown,medium,,False,YES,2006-06-30,17.0,NO,,Queens,"S, Lm, And Um"
 EL113,605.0,unknown->mezzanine,unknown,mezzanine,medium,3.0,False,NO,1958-01-01,22.0,NO,168ST-BWY7-1,Manhattan,transfer mezzanine to overpass for 1 train service in both directions
 EL282,9.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2021-05-21,17.0,NO,57ST-7AV-BWY-N/R/Q,Manhattan,Mezzanine to platform for southbound NQRW service
 EL407,221.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,1989-11-01,17.0,NO,21ST-QUEENSBRIDGE-63S-F,Queens,mezzanine to Jamaica-bound platform
@@ -195,7 +189,6 @@ EL609,601.0,mezzanine->platform,mezzanine,platform,high,5.0,False,NO,2024-08-19,
 EL224,618.0,mezzanine->platform,mezzanine,platform,high,2.0,False,NO,2002-10-07,17.0,NO,8AV-CNR-L,Manhattan,mezzanine to L platform for service in both directions
 EL717X,628.0,mezzanine->platform,mezzanine,platform,high,6.0,False,NO,2014-11-10,17.0,NO,FULTONST-LEX-4/5,Manhattan,Transit Center (near Broadway & John St) to uptown 4/5 platform and concourse for access to rest of complex
 EL620,224.0,street->mezzanine,street,mezzanine,high,1.0,False,YES,2026-06-10,17.0,YES,57ST-6AV-F,Manhattan,Street (SW corner of 56 St and 6 Av) to mezzanine.
-EL269,477.0,unknown->mezzanine,unknown,mezzanine,medium,0.0,True,NO,2017-01-01,17.0,NO,72ST-2AV-Q,Manhattan,Lower Mezzanine-first Upper Mezzanine-second Upper Mezzanine
 EL389,35.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2020-10-31,17.0,NO,59ST-4AV-N/R,Brooklyn,mezzanine to platform for Coney Island-bound N and Bay Ridge-bound R service
 EL142,153.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2005-12-02,17.0,YES,125ST-8AV-A/B/C/D,Manhattan,125 St & St Nicholas Ave (SW corner) to mezzanine for service in both directions
 EL197,371.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2014-11-18,17.0,NO,HUNTSPOINTAV-PEL-6,Bronx,Mezzanine to Manhattan-bound platform
@@ -203,7 +196,6 @@ EL614,601.0,mezzanine->platform,mezzanine,platform,high,5.0,False,NO,2024-08-19,
 EL120,145.0,unknown->mezzanine,unknown,mezzanine,medium,2.0,False,NO,1985-10-01,22.0,NO,190ST-8AV-A,Manhattan,upper mezzanine (Fort Washington Av) to lower mezzanine for service in both directions and access to passageway to Bennett Ave & 190 St
 EL198,444.0,street->platform,street,platform,high,1.0,False,YES,2020-12-31,17.0,YES,GUNHILLRD-DYR-5,Bronx,Gun Hill Road (between Sexton Pl and Dewitt Pl) to Manhattan-bound platform
 EL181,438.0,street->platform,street,platform,high,1.0,False,YES,2008-05-15,17.0,YES,135ST-LWP-2/3,Manhattan,135 St & Lenox Ave (SW corner) to downtown platform
-EL173,,unknown->unknown,unknown,unknown,landings_only,,False,NO,2010-08-18,17.0,NO,,Bronx,3 Landings
 EL211,607.0,mezzanine->platform,mezzanine,platform,high,3.0,False,NO,1993-11-22,17.0,NO,34ST-HERALDSQ-BWY-M/N/R/Q,Manhattan,mezzanine to downtown N/Q/R/W platform
 EL795,250.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2026-08-14,17.0,YES,KINGSHWY-6AV-F,Brooklyn,Street (SE corner of Kings Highway and McDonald Av) to mezzanine.
 EL117,146.0,unknown->mezzanine,unknown,mezzanine,medium,2.0,False,NO,1932-06-01,22.0,NO,181ST-8AV-A,Manhattan,Upper mezzanine (184 St & Ft Washington Av) to lower mezzanine for service in both directions.
@@ -220,7 +212,6 @@ EL745,38.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2020-07-29,17.0,
 EL387,35.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2020-10-31,17.0,YES,59ST-4AV-N/R,Brooklyn,4th Ave and 59 St (NW corner) to mezzanine for service in both directions
 EL159,426.0,street->platform,street,platform,high,1.0,False,YES,2012-06-08,17.0,YES,E180ST-LWP-2/5,Bronx,Morris Park Ave & E 180 St to Bronx-bound platform
 EL431,254.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2005-07-28,17.0,YES,JAMAICA-179ST-QBL-F,Queens,179 Pl & Hillside Ave (SE corner) to mezzanine for Manhattan-bound service
-EL734X,628.0,unknown->unknown,unknown,unknown,none,2.0,False,NO,,17.0,NO,FULTONST-LEX-4/5,Manhattan,Transit Center
 EL101,603.0,street->mezzanine,street,mezzanine,high,2.0,False,YES,,17.0,YES,149ST-HOSTOS-JER-4,Bronx,Transfer mezzanine to Woodlawn-bound 4 platform and Bronx-bound 2/5 platform.
 EL304,617.0,mezzanine->platform,mezzanine,platform,high,5.0,False,NO,2004-04-15,17.0,NO,ATLANTICAV-BARCLAYSCTR-EPK-2/3/4/5,Brooklyn,Brooklyn-bound 2/3 platform to mezzanine for access to rest of complex
 EL18X,624.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2018-09-12,17.0,NO,CORTLANDTST-BWY-R,Manhattan,Church St to mezzanine for downtown R/W service
@@ -310,7 +301,6 @@ EL509,215.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2024-02-27,22.0
 EL218,602.0,mezzanine->platform,mezzanine,platform,high,2.0,False,NO,2000-05-26,17.0,NO,14ST-UNIONSQ-CNR-L,Manhattan,mezzanine to L platform for service in both directions
 EL753,71.0,street->platform,street,platform,high,1.0,False,YES,2019-11-03,17.0,YES,8AV-SEA-N,Brooklyn,Street inside station house at 62nd St and 8th Ave to Manhattan-bound platform
 EL406,221.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,1989-11-01,17.0,NO,21ST-QUEENSBRIDGE-63S-F,Queens,mezzanine to Manhattan-bound platform
-EL399,58.0,unknown->unknown,unknown,unknown,landings_only,0.0,True,NO,2006-02-27,17.0,NO,CONEYISLAND-STILLWELLAV-SEA-D/F/N/Q,Brooklyn,3 Landings
 EL105,300.0,unknown->mezzanine,unknown,mezzanine,medium,3.0,False,NO,1962-01-01,22.0,NO,191ST-BWY7-1,Manhattan,191 St & St Nicholas Ave (SW corner) to mezzanine for service in both directions and access to passageway to Broadway & 191 St
 EL514,363.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2025-01-07,22.0,YES,WESTCHESTERSQ-EASTTREMONTAV-PEL-6,Bronx,Mezzanine to Manhattan-bound platform.
 EL204,610.0,street->mezzanine,street,mezzanine,high,1.0,False,YES,1990-08-01,17.0,NO,GRANDCENTRAL-42ST-LEX-4/5/6,Manhattan,42 St (between Park Ave & Lexington Ave) to mezzanine for 4/5/6/7 service in both directions
@@ -366,7 +356,6 @@ EL403,222.0,street->platform,street,platform,high,1.0,False,YES,1989-11-01,22.0,
 EL520,305.0,street->platform,street,platform,high,1.0,False,YES,2026-10-08,,YES,137ST-CITYCOLLEGE-BWY7-1,Manhattan,Street (SW corner of Broadway and W 137 St) to downtown 1 platform.
 EL523,379.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2025-08-26,17.0,YES,MOSHOLUPKWY-JER-4,Bronx,Street (SE corner of Jerome Av and E Mosholu Pkwy North) to Transfer Mezzanine & Woodlawn-bound Platform
 EL23X,624.0,street->unknown,street,unknown,medium,1.0,False,YES,1900-01-01,17.0,NO,WORLDTRADECENTER-8AV-E,Manhattan,"Church St to E line with access to downtown R/W, balcony & Oculus main level"
-EL790X,,unknown->unknown,unknown,unknown,landings_only,,False,NO,,17.0,NO,,Staten Island,3 Landings
 EL340,627.0,street->platform,street,platform,high,1.0,False,YES,1999-10-18,17.0,YES,FRANKLINAV-8AV-C,Brooklyn,footbridge to Manhattan-bound C platform
 EL193,418.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2007-04-20,17.0,YES,233ST-LWP-2/5,Bronx,mezzanine to Wakefield 241 St-bound platform
 EL106,300.0,unknown->mezzanine,unknown,mezzanine,medium,3.0,False,NO,1962-01-01,22.0,NO,191ST-BWY7-1,Manhattan,191 St & St Nicholas Ave (SW corner) to mezzanine for service in both directions and access to passageway to Broadway & 191 St
@@ -395,7 +384,7 @@ EL500,211.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2020-10-12,17.0
 EL702,58.0,mezzanine->platform,mezzanine,platform,high,0.0,True,NO,2005-10-12,17.0,YES,CONEYISLAND-STILLWELLAV-SEA-D/F/N/Q,Brooklyn,D platform to overpass for access to mezzanine via N platform
 EL189,212.0,street->mezzanine,street,mezzanine,high,0.0,True,YES,2014-12-18,17.0,YES,KINGSBRIDGERD-CON-B/D,Bronx,Kingsbridge Rd & Grand Concourse (SE corner) to mezzanine for service in both directions
 EL746,38.0,mezzanine->platform,mezzanine,platform,high,0.0,True,NO,2020-07-29,17.0,NO,86ST-4AV-R,Brooklyn,mezzanine to platform for service in both directions
-EL733X,628.0,unknown->unknown,unknown,unknown,none,2.0,False,NO,2014-11-10,17.0,NO,FULTONST-LEX-4/5,Manhattan,Transit Center (near Broadway & John St) to upper retail floors
+EL733X,628.0,unknown->unknown,unknown,unknown,none,0.0,True,NO,2014-11-10,17.0,NO,FULTONST-LEX-4/5,Manhattan,Transit Center (near Broadway & John St) to upper retail floors
 EL432,254.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2005-07-28,17.0,NO,JAMAICA-179ST-QBL-F,Queens,mezzanine to Manhattan-bound platform
 EL756,341.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2020-12-11,17.0,NO,EASTERNPKWY-BROOKLYNMUSEUM-EPK-2/3,Brooklyn,Mezzanine to Manhattan-bound platform
 EL244,610.0,mezzanine->platform,mezzanine,platform,high,3.0,False,NO,2001-12-06,17.0,NO,GRANDCENTRAL-42ST-FLS-7,Manhattan,mezzanine to 7 platform for service in both directions
@@ -405,7 +394,6 @@ EL409,280.0,street->mezzanine,street,mezzanine,high,1.0,False,YES,1988-12-01,17.
 EL511,215.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2024-02-27,17.0,NO,TREMONTAV-CON-B/D,Bronx,Mezzanine to Norwood-205 St-bound platform.
 EL764,283.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2020-11-25,17.0,NO,GREENPOINTAV-XTN-G,Brooklyn,Mezzanine to Court Sq-bound platform
 EL513,363.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2025-01-07,22.0,YES,WESTCHESTERSQ-EASTTREMONTAV-PEL-6,Bronx,Mezzanine to Pelham Bay Park-bound platform.
-EL724X,628.0,unknown->unknown,unknown,unknown,none,2.0,False,NO,,22.0,NO,FULTONST-8AV-A/C,Manhattan,Corbin Building
 EL464,2.0,street->mezzanine,street,mezzanine,high,1.0,False,YES,2020-07-24,17.0,YES,ASTORIABLVD-AST-N/Q,Queens,Hoyt Ave North and 31 St (NW corner) to mezzanine for service in both directions
 EL284,399.0,mezzanine->platform,mezzanine,platform,high,1.0,False,NO,2024-12-18,17.0,NO,68ST-HUNTERCOLLEGE-LEX-6,Manhattan,Mezzanine to downtown platform.
 EL210,607.0,mezzanine->platform,mezzanine,platform,high,3.0,False,NO,1993-11-22,17.0,NO,34ST-HERALDSQ-6AV-B/D/F,Manhattan,mezzanine to uptown B/D/F/M platform

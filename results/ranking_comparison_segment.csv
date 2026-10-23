@@ -1,6 +1,6 @@
 comparison,n,spearman,pearson
-reachability damage vs mean monthly outages,407,0.088,-0.001
-reachability damage vs unavailability,430,-0.002,-0.023
-reachability damage vs entrapments,407,0.072,0.011
-expected trips denied vs mean monthly outages,407,0.119,-0.029
-reachability damage vs complex ridership,422,0.054,0.34
+reachability damage vs mean monthly outages,407,0.077,-0.018
+reachability damage vs unavailability,418,-0.017,-0.028
+reachability damage vs entrapments,407,0.062,0.003
+expected trips denied vs mean monthly outages,407,0.119,-0.034
+reachability damage vs complex ridership,416,0.067,0.354

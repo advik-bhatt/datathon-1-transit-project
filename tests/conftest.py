@@ -89,6 +89,10 @@ def toy_availability() -> pd.DataFrame:
     rows = []
     avail = {"EL1": 0.99, "EL2": 0.90, "EL3": 0.95, "EL4": 0.95,
              "EL5": 0.99, "EL6": 0.80}
+    # Hours are made consistent with the ratio, because unavailability is
+    # computed hours-weighted and a fixture whose hours contradict its ratios
+    # would test nothing.
+    total_h = 730.0
     for code, a in avail.items():
         for m in months:
             rows.append({"month": m, "equipment_code": code,
@@ -100,8 +104,11 @@ def toy_availability() -> pd.DataFrame:
                          "station_complex_mrn": 1,
                          "time_since_major_improvement": 100.0,
                          "station_name": "S", "station_complex_name": "S",
-                         "am_peak_hours_available": 1.0, "am_peak_total_hours": 1.0,
-                         "pm_peak_hours_available": 1.0, "pm_peak_total_hours": 1.0,
-                         "_24_hour_hours_available": 1.0, "_24_hour_total_hours": 1.0,
+                         "am_peak_hours_available": 120.0 * a,
+                         "am_peak_total_hours": 120.0,
+                         "pm_peak_hours_available": 120.0 * a,
+                         "pm_peak_total_hours": 120.0,
+                         "_24_hour_hours_available": total_h * a,
+                         "_24_hour_total_hours": total_h,
                          "station_mrn": 1})
     return pd.DataFrame(rows)

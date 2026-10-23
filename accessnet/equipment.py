@@ -10,8 +10,11 @@ several. The open data does not state this. It gives, per asset:
 * `notes`, free text that is the only description of which vertical segment the
   machine serves. 333 of 482 mention a mezzanine or concourse, 278 mention a
   platform, 424 contain the word "to" and so describe a segment at all.
-* 31 are not passenger assets at all, serving yards, freight, relay rooms,
-  inspection barns and signal towers. 9 say only "N Landings".
+* 52 are not revenue machines at all, per the agency's own
+  `revenue_machine` flag: yards, freight, relay rooms, inspection barns,
+  signal towers and parking structures. The notes mention such a use for only
+  31 of them, and all 31 are inside the 52, so the structured flag is used and
+  the text is a cross-check. 9 elevators say only "N Landings".
 
 So the chain is inferable for most assets and not for some. Rather than
 pretend otherwise, every complex is labelled with the confidence of its
@@ -61,7 +64,20 @@ def classify_segment(row) -> tuple[str, str, str]:
     """Infer (from_level, to_level, confidence) for one elevator."""
     note = str(getattr(row, "notes", "") or "")
     street_flag = str(getattr(row, "street_access", "") or "").strip().upper() == "YES"
+    revenue = str(getattr(row, "revenue_machine", "") or "").strip().upper()
 
+    # `revenue_machine` is the agency's own structured flag and it is stricter
+    # than reading the notes: it marks 52 of the 482 elevators as non-revenue
+    # where the notes mention a yard, freight, relay room, inspection barn or
+    # signal tower for only 31. Every one of those 31 is inside the 52, so the
+    # flag is a superset and the notes add nothing. It is checked first.
+    #
+    # Note that matching on the notes rather than the station name matters:
+    # four elevators serve 34 St-Hudson Yards, whose name contains "Yards",
+    # and all four are revenue machines whose notes describe ordinary
+    # mezzanine-to-platform segments.
+    if revenue == "NO":
+        return UNKNOWN, UNKNOWN, "non_passenger"
     if NON_PASSENGER.search(note):
         return UNKNOWN, UNKNOWN, "non_passenger"
     if LANDINGS_ONLY.match(note):

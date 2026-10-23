@@ -16,6 +16,24 @@ def test_non_passenger_assets_are_excluded(toy_equipment):
     assert int(a["passenger_asset"].sum()) == 5
 
 
+def test_revenue_machine_flag_overrides_the_notes(toy_equipment):
+    """The agency's own flag is stricter than the text and is checked first.
+
+    On the real inventory it marks 52 elevators non-revenue where the notes
+    catch only 31, so a passenger-looking note must not rescue a machine the
+    agency says earns no revenue.
+    """
+    eq = toy_equipment.copy()
+    eq["revenue_machine"] = "YES"
+    # An ordinary-looking note, but flagged non-revenue by the agency.
+    eq.loc[eq["equipment_code"] == "EL3", "revenue_machine"] = "NO"
+    a = eqm.build_assets(eq).set_index("equipment_code")
+    assert not a.loc["EL3", "passenger_asset"]
+    assert a.loc["EL3", "segment_confidence"] == "non_passenger"
+    # And a revenue machine whose STATION name contains "Yards" survives.
+    assert a.loc["EL1", "passenger_asset"]
+
+
 def test_segments_are_inferred_from_notes_and_flag(toy_equipment):
     a = eqm.build_assets(toy_equipment).set_index("equipment_code")
     assert a.loc["EL1", "segment"] == "street->mezzanine"
@@ -53,6 +71,43 @@ def test_unavailability_is_one_minus_availability(toy_availability):
     u = avm.unavailability(toy_availability, months=24).set_index("equipment_code")
     assert u.loc["EL6", "unavailability"] == pytest.approx(0.20, abs=1e-6)
     assert u.loc["EL1", "unavailability"] == pytest.approx(0.01, abs=1e-6)
+
+
+def test_unavailability_is_hours_weighted_not_a_mean_of_ratios(toy_availability):
+    """Months with few in-service hours must not count as much as full months.
+
+    This is the real EL131 case: 744 in-service hours in one month and 80 in
+    another. Averaging the two ratios equally understates its unavailability
+    by 5 points.
+    """
+    av = toy_availability[toy_availability["equipment_code"] == "EL1"].copy()
+    av = av.sort_values("month").reset_index(drop=True)
+    # One full month at 50% availability, one near-empty month at 100%.
+    av.loc[0, ["_24_hour_total_hours", "_24_hour_hours_available",
+               "_24_hour_availability"]] = [730.0, 365.0, 0.5]
+    av.loc[1, ["_24_hour_total_hours", "_24_hour_hours_available",
+               "_24_hour_availability"]] = [10.0, 10.0, 1.0]
+    av = av.iloc[:2]
+    u = avm.unavailability(av, months=24).set_index("equipment_code")
+    hours_weighted = 1.0 - (365.0 + 10.0) / (730.0 + 10.0)
+    mean_of_ratios = 1.0 - (0.5 + 1.0) / 2.0
+    assert u.loc["EL1", "unavailability"] == pytest.approx(hours_weighted, abs=1e-6)
+    assert u.loc["EL1", "unavailability"] > mean_of_ratios
+
+
+def test_months_out_of_service_are_separated_from_unreliability(toy_availability):
+    """A unit under capital replacement is not a unit that keeps breaking."""
+    av = toy_availability[toy_availability["equipment_code"] == "EL2"].copy()
+    av = av.sort_values("month").reset_index(drop=True)
+    # Sixteen months with no in-service hours at all, as EL131 really shows.
+    av.loc[:15, ["_24_hour_total_hours", "_24_hour_hours_available",
+                 "_24_hour_availability"]] = [0.0, 0.0, float("nan")]
+    u = avm.unavailability(av, months=24).set_index("equipment_code")
+    assert int(u.loc["EL2", "months_out_of_service"]) == 16
+    assert u.loc["EL2", "in_service_coverage"] < 0.5
+    assert bool(u.loc["EL2", "mostly_out_of_service"])
+    # The remaining months still drive the reliability figure.
+    assert u.loc["EL2", "unavailability"] == pytest.approx(0.10, abs=1e-6)
 
 
 def test_availability_outside_zero_one_is_dropped(toy_availability):

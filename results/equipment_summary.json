@@ -1,23 +1,22 @@
 {
   "n_elevators_total": 482,
-  "n_passenger_elevators": 451,
-  "n_non_passenger": 31,
+  "n_passenger_elevators": 430,
+  "n_non_passenger": 52,
   "n_out_of_service": 22,
   "segment_confidence": {
-    "high": 341,
-    "medium": 84,
-    "non_passenger": 31,
-    "none": 14,
-    "landings_only": 9,
+    "high": 339,
+    "medium": 79,
+    "non_passenger": 52,
+    "none": 9,
     "low": 3
   },
   "n_complexes_with_elevators": 133,
-  "n_complexes_all_segments_redundant": 48,
-  "n_complexes_with_a_critical_segment": 85,
-  "n_elevators_sole_on_their_segment": 119,
+  "n_complexes_all_segments_redundant": 49,
+  "n_complexes_with_a_critical_segment": 84,
+  "n_elevators_sole_on_their_segment": 116,
   "vertical_model_confidence": {
-    "high": 101,
-    "medium": 31,
+    "high": 103,
+    "medium": 29,
     "low": 1
   }
 }

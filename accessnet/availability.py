@@ -71,10 +71,22 @@ def unavailability(av: pd.DataFrame, months: int = 24,
                    as_of: str | pd.Timestamp | None = None) -> pd.DataFrame:
     """Per-unit expected unavailability over a trailing window.
 
-    Returns the mean fraction of time each unit was NOT available, over the
-    most recent `months` months of published history. Units with no recent
-    record fall back to the fleet median for their equipment type, which is
-    stated in the output so the substitution is visible.
+    Computed **hours-weighted**, as unavailable hours over in-service hours,
+    not as the mean of the monthly availability ratios. The two agree for
+    almost the whole fleet (median absolute difference 8e-05 over 419
+    elevators) but they diverge exactly where it matters. EL131 at
+    161 St-Yankee Stadium reports 744 in-service hours in one month and 80 in
+    another; averaging those two ratios equally understates its unavailability
+    by 5 points, from 43.1% to 38.0%.
+
+    The window also separates two things the single availability column
+    conflates. A month with zero in-service hours is a unit that was removed
+    or under capital replacement, not a unit that broke: EL131 records zero
+    in-service hours for sixteen consecutive months and then returns. Those
+    months are excluded from the reliability estimate and reported separately
+    as `in_service_coverage`, because treating a replacement programme as
+    unreliability would be wrong in one direction and hiding it would be wrong
+    in the other.
     """
     df = tidy_availability(av)
     end = pd.Timestamp(as_of) if as_of else df["month"].max()
@@ -86,30 +98,51 @@ def unavailability(av: pd.DataFrame, months: int = 24,
     g = win.groupby("equipment_code").agg(
         n_months=("month", "size"),
         is_elevator=("is_elevator", "first"),
-        avail_24h=("_24_hour_availability", "mean"),
-        avail_am=("am_peak_availability", "mean"),
-        avail_pm=("pm_peak_availability", "mean"),
+        hours_in_service=("_24_hour_total_hours", "sum"),
+        hours_available=("_24_hour_hours_available", "sum"),
+        am_hours_in_service=("am_peak_total_hours", "sum"),
+        am_hours_available=("am_peak_hours_available", "sum"),
+        pm_hours_in_service=("pm_peak_total_hours", "sum"),
+        pm_hours_available=("pm_peak_hours_available", "sum"),
+        ratio_mean=("_24_hour_availability", "mean"),
         outages=("total_outages", "mean"),
         unscheduled=("unscheduled_outages", "mean"),
         entrapments=("entrapments", "sum"),
+        months_out_of_service=("_24_hour_total_hours",
+                               lambda s: int((s.fillna(0) <= 0).sum())),
         complex_id=("station_complex_mrn", "first"),
     ).reset_index()
 
-    med_el = float(win.loc[win["is_elevator"], "_24_hour_availability"].median())
-    med_es = float(win.loc[~win["is_elevator"], "_24_hour_availability"].median())
+    # How much of the window the unit was actually in service at all.
+    nominal = float(months) * 730.0
+    g["in_service_coverage"] = (g["hours_in_service"] / nominal).clip(0.0, 1.0)
+    g["mostly_out_of_service"] = g["in_service_coverage"] < 0.5
+
+    g["avail_24h"] = g["hours_available"] / g["hours_in_service"].where(
+        g["hours_in_service"] > 0)
+    med_el = float(g.loc[g["is_elevator"], "avail_24h"].median())
+    med_es = float(g.loc[~g["is_elevator"], "avail_24h"].median())
     fallback = np.where(g["is_elevator"], med_el, med_es)
     g["imputed_availability"] = g["avail_24h"].isna()
     g["avail_24h"] = g["avail_24h"].fillna(pd.Series(fallback, index=g.index))
     g["unavailability"] = (1.0 - g["avail_24h"]).clip(lower=0.0, upper=1.0)
+
+    peak_in = g["am_hours_in_service"] + g["pm_hours_in_service"]
+    peak_ok = g["am_hours_available"] + g["pm_hours_available"]
     g["peak_unavailability"] = (
-        1.0 - g[["avail_am", "avail_pm"]].mean(axis=1)
+        1.0 - peak_ok / peak_in.where(peak_in > 0)
     ).clip(lower=0.0, upper=1.0).fillna(g["unavailability"])
+
     g["window_start"] = start
     g["window_end"] = end
     n_imp = int(g["imputed_availability"].sum())
     if n_imp:
-        log.info("%d of %d units had no availability in the window and use the "
-                 "fleet median for their type", n_imp, len(g))
+        log.info("%d of %d units had no in-service hours in the window and use "
+                 "the fleet median for their type", n_imp, len(g))
+    n_out = int(g["mostly_out_of_service"].sum())
+    if n_out:
+        log.info("%d units were out of service for more than half the window; "
+                 "their unavailability describes only the months they ran", n_out)
     return g
 
 

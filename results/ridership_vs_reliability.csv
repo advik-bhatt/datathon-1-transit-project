@@ -1,0 +1,4 @@
+comparison,n,spearman
+ridership vs unavailability,407,0.042
+ridership vs mean monthly outages,407,-0.119
+ridership vs entrapments,407,-0.044
