@@ -1,0 +1,14 @@
+{
+  "n_complexes_in_graph": 445,
+  "n_edges_north": 578,
+  "n_edges_south": 580,
+  "step_free_nodes_north": 136,
+  "step_free_nodes_south": 137,
+  "step_free_pairs_N": 6466,
+  "all_pairs_N": 68101,
+  "step_free_pairs_S": 6491,
+  "all_pairs_S": 67786,
+  "step_free_pairs_total": 12957,
+  "all_pairs_total": 135887,
+  "step_free_pair_share_pct": 9.54
+}

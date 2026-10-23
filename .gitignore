@@ -1,0 +1,25 @@
+# data is re-downloadable; never commit it
+data/raw/
+data/processed/
+*.csv.gz
+*.parquet
+!tests/fixtures/*.parquet
+data-cache/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# os / editor
+.DS_Store
+*.swp
+
+# merge-desk runtime scratch
+.claude/merge-desk/last-conflict.*

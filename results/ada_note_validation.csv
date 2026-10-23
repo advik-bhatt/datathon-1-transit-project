@@ -1,0 +1,9 @@
+station_id,stop_name,routes,ada_notes,step_free_north,step_free_south,note_says_north,note_says_south,agrees,route_restricted
+10,49 St,N R W,Uptown only,True,False,True,False,True,False
+130,Wilson Av,L,Manhattan-bound only,True,False,False,False,,False
+162,50 St,C E,Downtown only,False,True,False,True,True,False
+168,Spring St,C E,Downtown only,False,True,False,True,True,False
+274,Court Sq-23 St,E F,Manhattan-bound only,False,True,False,False,,False
+336,Hoyt St,2 3,Outbound only,False,True,False,True,True,False
+397,86 St,4 5 6,Uptown local only,True,False,True,False,True,True
+404,28 St,6,Downtown only,False,True,False,True,True,False

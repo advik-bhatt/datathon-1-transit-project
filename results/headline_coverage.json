@@ -1,0 +1,12 @@
+{
+  "complexes": 445,
+  "complexes_step_free_any_direction": 140,
+  "pct_complexes_step_free": 31.46,
+  "od_pairs_with_flow": 177998,
+  "od_pairs_step_free_served": 12744,
+  "pct_pairs_step_free_served": 7.16,
+  "total_weekday_trips": 222488205.0,
+  "step_free_served_trips": 67290715.0,
+  "pct_trips_step_free_served": 30.24,
+  "pair_count_understates_by_factor": 4.22
+}

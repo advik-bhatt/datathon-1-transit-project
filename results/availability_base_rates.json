@@ -1,0 +1,12 @@
+{
+  "equipment_months": 83776,
+  "months_with_an_unscheduled_outage_pct": 64.4,
+  "elevator_months": 45980,
+  "elevator_months_with_outage_pct": 55.6,
+  "escalator_months": 37796,
+  "escalator_months_with_outage_pct": 75.2,
+  "median_24h_availability": 0.9792,
+  "median_elevator_24h_availability": 0.9854,
+  "entrapments_total": 14109,
+  "month_range": "2015-01-01 to 2026-09-01"
+}

@@ -1,0 +1,104 @@
+"""Vertical-path inference, and the capital search's mathematical properties."""
+from __future__ import annotations
+
+import pandas as pd
+import pytest
+
+from accessnet import ada, availability as avm, capital as cap, damage as dm
+from accessnet import equipment as eqm, graph as gr
+
+
+def test_non_passenger_assets_are_excluded(toy_equipment):
+    a = eqm.build_assets(toy_equipment)
+    yard = a[a["equipment_code"] == "EL5"].iloc[0]
+    assert not yard["passenger_asset"]
+    assert yard["segment_confidence"] == "non_passenger"
+    assert int(a["passenger_asset"].sum()) == 5
+
+
+def test_segments_are_inferred_from_notes_and_flag(toy_equipment):
+    a = eqm.build_assets(toy_equipment).set_index("equipment_code")
+    assert a.loc["EL1", "segment"] == "street->mezzanine"
+    assert a.loc["EL2", "segment"] == "mezzanine->platform"
+    assert a.loc["EL6", "segment"] == "street->platform"
+
+
+def test_redundancy_is_detected(toy_equipment):
+    a = eqm.build_assets(toy_equipment)
+    crit = eqm.asset_criticality(a).set_index("equipment_code")
+    # Complex 1 has two different segments, each served by one machine.
+    assert crit.loc["EL1", "sole_on_segment"]
+    assert crit.loc["EL2", "sole_on_segment"]
+    # Complex 3 has two machines on the same segment, so neither is sole.
+    assert not crit.loc["EL3", "sole_on_segment"]
+    assert not crit.loc["EL4", "sole_on_segment"]
+    v = eqm.complex_vertical_model(a).set_index("complex_id")
+    assert v.loc[3, "all_segments_redundant"]
+    assert not v.loc[1, "all_segments_redundant"]
+
+
+def test_step_free_complex_without_an_elevator_is_not_at_risk(toy_stations, toy_equipment):
+    """Ramp and grade access cannot be taken away by an elevator outage."""
+    acc = ada.station_accessibility(toy_stations)
+    cx = ada.complex_accessibility(acc)
+    a = eqm.build_assets(toy_equipment)
+    dep = eqm.elevator_dependent_complexes(cx, a).set_index("complex_id")
+    # Complex 4 is step-free northbound but has no elevator in the inventory.
+    assert dep.loc[4, "step_free_any"]
+    assert not dep.loc[4, "has_elevator"]
+    assert not dep.loc[4, "elevator_dependent"]
+
+
+def test_unavailability_is_one_minus_availability(toy_availability):
+    u = avm.unavailability(toy_availability, months=24).set_index("equipment_code")
+    assert u.loc["EL6", "unavailability"] == pytest.approx(0.20, abs=1e-6)
+    assert u.loc["EL1", "unavailability"] == pytest.approx(0.01, abs=1e-6)
+
+
+def test_availability_outside_zero_one_is_dropped(toy_availability):
+    bad = toy_availability.copy()
+    bad.loc[0, "_24_hour_availability"] = 1.4
+    t = avm.tidy_availability(bad)
+    assert t["_24_hour_availability"].max() <= 1.0
+
+
+def test_damage_is_zero_for_a_redundant_elevator(toy_stations, toy_topology,
+                                                 toy_od, toy_equipment,
+                                                 toy_availability):
+    acc = ada.station_accessibility(toy_stations)
+    cx = ada.complex_accessibility(acc)
+    edges = gr.build_edges(toy_topology, toy_stations, min_trains=1)
+    model = dm.ReachabilityModel(edges, cx, toy_od)
+    a = eqm.build_assets(toy_equipment)
+    crit = eqm.asset_criticality(a)
+    cxd = dm.complex_removal_damage(model, [1, 3, 5])
+    un = avm.unavailability(toy_availability, months=24)
+    seg = dm.elevator_damage(crit, cxd, un, model_name="segment").set_index("equipment_code")
+    assert seg.loc["EL3", "damage_flow"] == 0.0
+    assert seg.loc["EL1", "damage_flow"] > 0.0
+    # The crude model holds every machine responsible, so it is an upper bound.
+    anym = dm.elevator_damage(crit, cxd, un, model_name="any").set_index("equipment_code")
+    assert anym.loc["EL3", "damage_flow"] >= seg.loc["EL3", "damage_flow"]
+
+
+def test_greedy_gains_are_non_increasing(toy_stations, toy_topology, toy_od):
+    """Submodularity: each extra station can only add less than the last."""
+    acc = ada.station_accessibility(toy_stations)
+    cx = ada.complex_accessibility(acc)
+    edges = gr.build_edges(toy_topology, toy_stations, min_trains=1)
+    model = dm.ReachabilityModel(edges, cx, toy_od)
+    sel = cap.greedy_selection(model, [2], k=1)
+    assert len(sel) == 1
+    assert sel["marginal_gain"].iloc[0] > 0
+    g = sel["marginal_gain"].to_numpy()
+    assert all(g[i] >= g[i + 1] - 1e-9 for i in range(len(g) - 1))
+
+
+def test_score_selection_is_order_independent(toy_stations, toy_topology, toy_od):
+    acc = ada.station_accessibility(toy_stations)
+    cx = ada.complex_accessibility(acc)
+    edges = gr.build_edges(toy_topology, toy_stations, min_trains=1)
+    model = dm.ReachabilityModel(edges, cx, toy_od)
+    a = cap.score_selection(model, [2, 4])
+    b = cap.score_selection(model, [4, 2])
+    assert a["gain"] == pytest.approx(b["gain"])

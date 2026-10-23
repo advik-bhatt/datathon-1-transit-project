@@ -1,0 +1,11 @@
+{
+  "topology": 56286,
+  "paths": 111123,
+  "stations": 496,
+  "complexes": 445,
+  "equipment": 759,
+  "availability": 83776,
+  "platform_availability": 525,
+  "od_pairs": 177998,
+  "complex_ridership": 856
+}

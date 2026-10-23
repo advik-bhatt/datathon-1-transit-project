@@ -1,0 +1,21 @@
+complex_id,rank,display_name,borough
+609,1,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",M
+613,2,"Lexington Av/59 St (4,5,6,N,R,W)",M
+625,3,"Delancey St-Essex St (F,M,J,Z)",M
+228,4,"23 St (F,M)",M
+276,5,"5 Av/53 St (E,F)",M
+403,6,33 St (6),M
+398,7,77 St (6),M
+450,8,103 St-Corona Plaza (7),Q
+231,9,"Grand St (B,D)",M
+165,10,"23 St (C,E)",M
+277,11,"7 Av (E,B,D)",M
+333,12,"Wall St (2,3)",M
+316,13,50 St (1),M
+151,14,"145 St (A,C,B,D)",M
+169,15,"Canal St (A,C,E)",M
+452,16,90 St-Elmhurst Av (7),Q
+14,17,"23 St (R,W)",M
+413,18,"Wall St (4,5)",M
+407,19,Astor Pl (6),M
+232,20,2 Av (F),M

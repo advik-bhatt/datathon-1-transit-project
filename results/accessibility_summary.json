@@ -1,0 +1,13 @@
+{
+  "n_stations": 496,
+  "stations_step_free_both_directions": 166,
+  "stations_step_free_one_direction_only": 8,
+  "stations_not_step_free": 322,
+  "pct_stations_step_free_any": 35.1,
+  "n_complexes": 445,
+  "complexes_step_free_any": 140,
+  "complexes_step_free_both": 133,
+  "complexes_not_step_free": 305,
+  "pct_complexes_step_free_any": 31.5,
+  "complexes_route_restricted": 1
+}

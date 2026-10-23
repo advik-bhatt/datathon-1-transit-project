@@ -1,0 +1,28 @@
+{
+  "segment": {
+    "damage_model": "segment",
+    "n_draws": 300,
+    "baseline_served_flow": 67290715.3063,
+    "mean_pct_flow_lost": 4.454,
+    "median_pct_flow_lost": 3.842,
+    "p90_pct_flow_lost": 8.936,
+    "p99_pct_flow_lost": 13.475,
+    "worst_draw_pct_flow_lost": 15.532,
+    "mean_elevators_down": 2.69,
+    "max_elevators_down": 9,
+    "independence_assumed": true
+  },
+  "any": {
+    "damage_model": "any",
+    "n_draws": 300,
+    "baseline_served_flow": 67290715.3063,
+    "mean_pct_flow_lost": 29.027,
+    "median_pct_flow_lost": 28.513,
+    "p90_pct_flow_lost": 37.667,
+    "p99_pct_flow_lost": 43.91,
+    "worst_draw_pct_flow_lost": 54.482,
+    "mean_elevators_down": 11.52,
+    "max_elevators_down": 24,
+    "independence_assumed": true
+  }
+}

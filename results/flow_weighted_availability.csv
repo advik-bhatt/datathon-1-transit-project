@@ -1,0 +1,5 @@
+borough,baseline_step_free_flow,expected_flow_lost,flow_weighted_availability_pct,expected_pct_lost,damage_model,n_draws
+Bx,3273382.5728,305064.0604256668,90.68,9.32,segment,300
+M,44320753.8399,2069203.3513000007,95.331,4.669,segment,300
+Q,8745774.9032,316213.2588593333,96.384,3.616,segment,300
+Bk,10950803.9904,377813.5139409998,96.55,3.45,segment,300

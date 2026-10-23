@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "accessnet"
+version = "0.1.0"
+description = "A directed, flow-weighted, reliability-aware model of the step-free NYC subway network"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+    "networkx>=3.2",
+    "requests>=2.31",
+    "pyarrow>=15.0",
+    "matplotlib>=3.8",
+]
+
+[tool.setuptools]
+packages = ["accessnet", "accessnet.ingest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning"]
